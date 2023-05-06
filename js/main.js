@@ -39,8 +39,10 @@ controle.forEach( (elemento) => {
     elemento.addEventListener('click', (evento) => {
         // console.log(evento)
         // console.log(evento.target.dataset.controle)
-        manipulaDados(evento.target.parentNode, evento.target.dataset.controle)
-        atualizaEstatistica(evento.target.dataset.peca)
+        if(manipulaDados(evento.target.parentNode, evento.target.dataset.controle)) {
+            atualizaEstatistica(evento.target.dataset.peca, evento.target.dataset.controle)
+        }
+        
     })
 
 } )
@@ -50,6 +52,7 @@ function manipulaDados(controle, operacao) {
     const peca = controle.querySelector('[data-contador]')
     // console.log(peca)
     let valor = parseInt(peca.value)
+    let lRet = true
 
     if(operacao === '-' && valor > 0) {
         peca.value = valor - 1
@@ -57,16 +60,28 @@ function manipulaDados(controle, operacao) {
         peca.value = valor + 1
     } else {
         alert('O valor não pode ser inferiro a 0.')
+        lRet = false
     }
+
+    return lRet
 
 }
 
 
-function atualizaEstatistica(peca) {
+function atualizaEstatistica(peca, operacao) {
+    
+    let valor
 
     estatisticas.forEach( (elemento) => {
-        console.log(elemento.dataset.estatistica)
-        elemento.textContent = parseInt(elemento.textContent) + pecas[peca][elemento.dataset.estatistica]
+
+        valor = parseInt(elemento.textContent)
+
+        if(operacao === '-') {
+            elemento.textContent = valor - pecas[peca][elemento.dataset.estatistica]
+        } else {
+            elemento.textContent = valor + pecas[peca][elemento.dataset.estatistica]
+        }
+
     })
 
 }
