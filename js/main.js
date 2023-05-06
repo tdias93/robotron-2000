@@ -1,25 +1,22 @@
-const subtrair = document.querySelector('#subtrair')
-const somar = document.querySelector('#somar')
-const braco = document.querySelector('#braco')
+const controle = document.querySelectorAll('.controle-ajuste')
 
-somar.addEventListener("click", (evento) => {
-    manipulaDados('somar')
-} )
+controle.forEach( (elemento) => {
 
-subtrair.addEventListener("click", (evento) => {
-
-    manipulaDados('subtrair')
+    elemento.addEventListener('click', (evento) => {
+        manipulaDados(evento.target.parentNode, evento.target.textContent)
+    })
 
 } )
 
-function manipulaDados(operacao) {
+function manipulaDados(controle, operacao) {
 
-    let valor = parseInt(braco.value)
+    const peca = controle.querySelector('.controle-contador')
+    let valor = parseInt(peca.value)
 
-    if(operacao === 'subtrair' && valor > 0) {
-        braco.value = valor - 1
-    } else if(operacao === 'somar') {
-        braco.value = valor + 1
+    if(operacao === '-' && valor > 0) {
+        peca.value = valor - 1
+    } else if(operacao === '+') {
+        peca.value = valor + 1
     } else {
         alert('O valor não pode ser inferiro a 0.')
     }
